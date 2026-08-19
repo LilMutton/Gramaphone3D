@@ -1,49 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Gramaphone 3D Model</title>
 
-    <!-- 3D Model Viewer -->
     <script type="module"
         src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
     </script>
 
     <style>
-        html,
-        body {
+        html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
             background: white;
+            overflow: hidden;
         }
 
         model-viewer {
             display: block;
             width: 100%;
             height: 100%;
-            background-color: white;
+        }
+
+        #status {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            padding: 10px 15px;
+            font-family: Arial, sans-serif;
+            background: black;
+            color: white;
+            border-radius: 5px;
         }
     </style>
 </head>
 
 <body>
 
+    <div id="status">Loading Gramaphone.glb...</div>
+
     <model-viewer
+        id="gramaphone"
         src="Gramaphone.glb"
         camera-controls
-        touch-action="pan-y"
         shadow-intensity="1"
         exposure="1"
-        interaction-prompt="auto"
-        alt="Interactive 3D Gramaphone model">
+        alt="Interactive Gramaphone 3D Model">
     </model-viewer>
 
-</body>
+    <script>
+        const viewer = document.getElementById("gramaphone");
+        const status = document.getElementById("status");
 
+        viewer.addEventListener("load", function () {
+            status.textContent = "Model loaded — drag to rotate";
+        });
+
+        viewer.addEventListener("error", function () {
+            status.textContent = "ERROR: Gramaphone.glb could not be loaded";
+        });
+    </script>
+
+</body>
 </html>
